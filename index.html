@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나랑 닮은 먼작귀는?</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #fff1f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      color: #453942;
+    }
+
+    .container {
+      background: white;
+      border-radius: 28px;
+      padding: 36px 24px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 30px #f2d5df;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #887783;
+      line-height: 1.7;
+    }
+
+    .emoji {
+      font-size: 60px;
+      margin: 22px 0;
+    }
+
+    .upload-box {
+      border: 2px dashed #f4a8c4;
+      border-radius: 18px;
+      padding: 24px 12px;
+      margin: 24px 0;
+      background: #fff9fb;
+    }
+
+    input {
+      width: 100%;
+      max-width: 260px;
+    }
+
+    #preview {
+      display: none;
+      width: 180px;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 14px;
+      margin: 18px auto 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 16px;
+      background: #f49abb;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 18px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>나랑 닮은 먼작귀는?</h1>
+
+    <p>
+      사진 한 장으로 알아보는<br>
+      나의 먼작귀 캐릭터!
+    </p>
+
+    <div class="emoji">🐹 💗 🐰</div>
+
+    <div class="upload-box">
+      <p>사진을 선택해 주세요!</p>
+
+      <input
+        type="file"
+        id="photo"
+        accept="image/*"
+      >
+
+      <img id="preview" alt="선택한 사진 미리보기">
+    </div>
+
+    <button onclick="startTest()">
+      내 캐릭터 찾기
+    </button>
+
+    <p id="message"></p>
+  </main>
+
+  <script>
+    const photo = document.getElementById("photo");
+    const preview = document.getElementById("preview");
+
+    photo.addEventListener("change", function () {
+      const file = photo.files[0];
+
+      if (!file) {
+        preview.style.display = "none";
+        preview.removeAttribute("src");
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        alert("이미지 파일을 선택해 주세요.");
+        photo.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        preview.src = event.target.result;
+        preview.style.display = "block";
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    function startTest() {
+      const message = document.getElementById("message");
+
+      if (!photo.files.length) {
+        message.textContent = "먼저 사진을 올려주세요! 💗";
+        return;
+      }
+
+      message.textContent =
+        "사진 업로드 성공! AI 캐릭터 분석은 다음 단계에서 연결할게요.";
+    }
+  </script>
+</body>
+</html>
